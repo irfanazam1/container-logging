@@ -22,7 +22,7 @@ This repository will provide the details about using the Fluentd service, it int
 
 ### Fluentd project
 The project structure will look like the following.
-```
+```plaintext
 fluentd/
 ├── Dockerfile
 ├── fluentd-check.sh
