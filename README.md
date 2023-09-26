@@ -22,12 +22,15 @@ This repository will provide the details about using the Fluentd service, it int
 
 ### Fluentd project
 The project structure will look like the following.
+```
 fluentd/
 ├── Dockerfile
 ├── fluentd-check.sh
 └── config/
     ├── fluent.conf
     └── logrotate.conf
+```
+
 
 
 
