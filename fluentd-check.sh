@@ -1,7 +1,7 @@
 #!/bin/bash
 
 count=0
-while [ $count -lt 300 ]; do
+while [ $count -lt 30 ]; do
   if nc -z fluentd 24224; then
     echo "Fluentd is up and running."
     break
