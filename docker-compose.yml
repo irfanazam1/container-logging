@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  # fluentd service
+  fluentd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fluentd
+    hostname: fluentd
+    volumes:
+      - ./data/log:/fluentd/log
+    ports:
+      - "24224:24224"
+      - "24225:24224/udp"
+    healthcheck:
+      test: ["CMD", "/bin/sh", "/fluentd/fluentd-check.sh"]
+      interval: 5s
+      retries: 10
+  
+  # busybox service to generate logs
+  busybox1:
+    image: busybox
+    container_name: busybox1
+    hostname: busybox1
+    depends_on: 
+      fluentd:
+        condition: service_healthy 
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: busybox1
+    command: >
+      sh -c "echo 'busybox1 started' && while true; do echo 'Hello busybox1'; sleep 5; done"
+
+  # another busy box service to generate logs
+  busybox2:
+    image: busybox
+    container_name: busybox2
+    hostname: busybox2
+    depends_on: 
+      fluentd:
+        condition: service_healthy 
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: busybox2
+    command: >
+      sh -c "echo 'busybox2 started' && while true; do echo 'Hello busybox2'; sleep 5; done"
